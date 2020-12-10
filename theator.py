@@ -1,11 +1,13 @@
 '''
 Author: PlanC
 Date: 2020-12-05 20:57:02
-LastEditTime: 2020-12-09 21:30:29
+LastEditTime: 2020-12-10 14:00:00
 FilePath: \pytheater\theator.py
 '''
 
 import curses
+import os
+import pygame
 import time
 
 stdscr = curses.initscr()
@@ -19,10 +21,13 @@ class actor :
         self.fakename       = fakename
         self.histroyname    = historyname
 
-    def position(self, X, Y) :
+    def position(self, X, Y, reverse) :
         self.posX = X
         self.posY = Y
-        stdscr.addstr(X, Y, self.shortname)
+        if reverse :
+            stdscr.addstr(X, Y, self.shortname)
+        else :
+            stdscr.addstr(X, Y, self.shortname[::-1])
         stdscr.refresh()
 
     def speak(self, offset, content) :
@@ -51,6 +56,17 @@ class tools :
     def showraw(X, Y, content) :
         stdscr.addstr(X, Y, content)
         stdscr.refresh()
+
+    def clean() :
+        os.system("cls")
+
+    def mix(filepath) :
+        pygame.mixer.init()
+        pygame.mixer.music.load(filepath)
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play()
+        pygame.mixer.music.fadeout(60000)
+
 
 if __name__ == "__main__" :
     exit
